@@ -156,7 +156,7 @@ void rotar_izquierda(){
 	int pad_h = Padding(size_h);
 	
 	unsigned char** data_aux = new unsigned char* [width];
-	if(bpp == 24){
+	if(bpp == 8){
 		for(int i = 0; i < width; i ++){
 			int k=0;
 			data_aux[i] = new unsigned char[pad_h];
