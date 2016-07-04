@@ -25,6 +25,5 @@ Luego se mostrará un menú en el cual el usuario seleccionará la opción que d
 
 # Integrante
 
-Daniel Rodríguez  
-
+Daniel Rodríguez<br/>
 CI 24883818
