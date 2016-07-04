@@ -22,6 +22,8 @@ Para ejecutar el programa, es necesario compilarlo y ejecutarlo vía terminal.
 Al momento de ejecutar el programa se leerá el nombre de la imagen por pantalla, 
 la cual debe estar ubicada en la misma carpeta en la que se compiló el código.
 Luego se mostrará un menú en el cual el usuario seleccionará la opción que desee.
+El programa genera como salida un archivo llamado "salida.bmp", el cual se irá
+modificando con cada opción que ejecute el usuario.
 
 # Integrante
 
