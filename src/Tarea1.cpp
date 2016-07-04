@@ -73,10 +73,10 @@ void espejo_horizontal(){
     	unsigned char* data_aux = new unsigned char[size];
     	if(bpp!=24){
 	    	for(int j = 0; j < size; j += 4){
-	    		data_aux[j] = data[i][size-j-2];
-	    		data_aux[j+1] = data[i][size-j-3];
-	    		data_aux[j+2] = data[i][size-j-4];
-	    		data_aux[j+3] = data[i][size-j-1];
+	    		data_aux[j] = data[i][pad-j-1];
+	    		data_aux[j+1] = data[i][pad-j-2];
+	    		data_aux[j+2] = data[i][pad-j-3];
+	    		data_aux[j+3] = data[i][pad-j-4];
 	    	}
 	    }else{
 	    	for(int j = 0; j < size; j += 3){
@@ -106,19 +106,37 @@ void rotar_derecha(){
 	int pad_h = Padding(size_h);
 	
 	unsigned char** data_aux = new unsigned char* [width];
-	for(int i = 0; i < width; i ++){
-		int k=0;
-		data_aux[i] = new unsigned char[pad_h];
-		for(int j = 0; j < height; j++){
-	        data_aux[i][k] = data[j][size-(i*3)-3];
-	     	data_aux[i][k+1] = data[j][size-(i*3)-2];
-	        data_aux[i][k+2] = data[j][size-(i*3)-1];
-	        k += 3;
+	if(bpp == 8){
+		for(int i = 0; i < width; i ++){
+			int k=0;
+			data_aux[i] = new unsigned char[pad_h];
+			for(int j = 0; j < height; j++){
+		        data_aux[i][k] = data[j][size-i-1];
+		        k++;
+			}
+			if(pad_h > size_h){
+				while(k<pad_h){
+					data_aux[i][k]=0;
+					k++;
+				}
+			}
 		}
-		if(pad_h > size_h){
-			while(k<pad_h){
-				data_aux[i][k]=0;
-				k++;
+	}
+	if(bpp == 24){
+		for(int i = 0; i < width; i ++){
+			int k=0;
+			data_aux[i] = new unsigned char[pad_h];
+			for(int j = 0; j < height; j++){
+		        data_aux[i][k] = data[j][size-(i*3)-3];
+		     	data_aux[i][k+1] = data[j][size-(i*3)-2];
+		        data_aux[i][k+2] = data[j][size-(i*3)-1];
+		        k += 3;
+			}
+			if(pad_h > size_h){
+				while(k<pad_h){
+					data_aux[i][k]=0;
+					k++;
+				}
 			}
 		}
 	}
@@ -138,19 +156,37 @@ void rotar_izquierda(){
 	int pad_h = Padding(size_h);
 	
 	unsigned char** data_aux = new unsigned char* [width];
-	for(int i = 0; i < width; i ++){
-		int k=0;
-		data_aux[i] = new unsigned char[pad_h];
-		for(int j = height; j > 0; j--){
-	        data_aux[i][k] = data[j-1][i*3];
-	     	data_aux[i][k+1] = data[j-1][i*3+1];
-	        data_aux[i][k+2] = data[j-1][i*3+2];
-	        k += 3;
+	if(bpp == 24){
+		for(int i = 0; i < width; i ++){
+			int k=0;
+			data_aux[i] = new unsigned char[pad_h];
+			for(int j = height; j > 0; j--){
+		        data_aux[i][k] = data[j-1][i];
+		        k++;
+			}
+			if(pad_h > size_h){
+				while(k<pad_h){
+					data_aux[i][k]=0;
+					k++;
+				}
+			}
 		}
-		if(pad_h > size_h){
-			while(k<pad_h){
-				data_aux[i][k]=0;
-				k++;
+	}
+	if(bpp == 24){
+		for(int i = 0; i < width; i ++){
+			int k=0;
+			data_aux[i] = new unsigned char[pad_h];
+			for(int j = height; j > 0; j--){
+		        data_aux[i][k] = data[j-1][i*3];
+		     	data_aux[i][k+1] = data[j-1][i*3+1];
+		        data_aux[i][k+2] = data[j-1][i*3+2];
+		        k += 3;
+			}
+			if(pad_h > size_h){
+				while(k<pad_h){
+					data_aux[i][k]=0;
+					k++;
+				}
 			}
 		}
 	}
@@ -174,7 +210,7 @@ void ReadBMP(const char* filename){
     height = *(int*)&info[22];
     bpp = *(int*)&info[28];
     
-    //Se calcula el size de la imagen y, en caso de que tenga paleta, se guarda su tamaño
+    //Se calcula el size de la imagen y, en caso de que tenga paleta, se guarda su tamaÃ±o
     if(bpp==1){
         size = width/8;
         tam_paleta = 8;
